@@ -1,0 +1,14 @@
+body{
+    background-color: rosybrown;
+    color: white;
+    margin: auto;
+    padding: 50px;
+    
+}
+article+article{
+    margin-top: 3rem;
+    
+}
+h2{
+    text-decoration: underline;
+}

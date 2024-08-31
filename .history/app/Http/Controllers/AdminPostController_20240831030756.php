@@ -1,25 +1,37 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Post;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 class AdminPostController extends Controller
 {
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
         return view('admin.posts.index',[
-            'posts'=>Post::paginate(50)
+            'posts'=>Post::paginate(10)
         ]);
-
     }
-    public function create(){
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
         //restrict access to this page to only admins->in the middleware:
         return view('admin.posts.create');
     }
-    public function store(){
-        //$path=request()->file('thumbnail')->store('thumbnails');
-        //return 'Done : '.$path;
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
         //validation:
         $attributes=$this->validatePost(new Post());
         // //creating a new post:
@@ -29,11 +41,28 @@ class AdminPostController extends Controller
         Post::create($attributes);
         return redirect('/posts');
     }
-    public function edit(Post $post){
-        return view('admin.posts.edit',['post'=>$post]);
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
     }
-    public function update(Post $post){
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Post $post)
+    {
+        return view('admin.posts.edit',['post'=>$post]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Post $post)
+    {
         $attributes=$this->validatePost($post);
 
         if(isset($attributes['thumbnail'])){
@@ -41,14 +70,18 @@ class AdminPostController extends Controller
         }
 
         $post->update($attributes);
-        return back()->with('success','Post Updated');
+        return redirect("/admin/posts")->with('success','Post Updated');
     }
-    public function destroy(Post $post ){
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Post $post)
+    {
         $post->delete();
         return back()->with('success','Post deleted');
-
-
     }
+
     //a method to avoid the duplication of validation rules:
     protected function validatePost(?Post $post=null) :array
     {
@@ -60,10 +93,9 @@ class AdminPostController extends Controller
             'thumbnail'=>$post->exists ? ['image'] : ['required','image'],
             'excerpt'=>'required',
             'body'=>'required',
-            //make sure the category exists in the categories table(valid catedory id):
+            //make sure the category exists in the categories table(valid category id):
             'category_id'=>['required',Rule::exists('categories','id')]
         ]);
 
     }
-    
 }

@@ -12,11 +12,9 @@ class NewsletterController extends Controller
     public function __invoke(Newsletter $newsletter)
     {
 
-        request()->validate([
-            'email'=>'required|email'
-        ]);
+        request()->validate(['email'=>'required|email']);
         try{
-            $newsletter=new Newsletter();
+            $newsletter=new Newsletter(); 
             $newsletter->subscribe(request('email'));
             }
             catch(Exception $e){
@@ -24,9 +22,9 @@ class NewsletterController extends Controller
                     'email'=>'your email could not be added to our newsletter list'
                 ]);
             }
-
+            
             return redirect("/posts")->with('success','you are now subscribed');
-
+       
     }
-
+     
 }

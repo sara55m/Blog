@@ -31,20 +31,17 @@ use App\Services\Newsletter;
 |
 */
 //subscription form(api)
-/*Route::get('ping',function(){
+Route::get('ping',function(){
     $mailchimp = new \MailchimpMarketing\ApiClient();
     $mailchimp->setConfig([
 	    'apiKey' => config('services.mailchimp.key'),
 	    'server' => 'us14'
     ]);
-    $response = $mailchimp->lists->addListMember('afea5243a5',[
-        'email_address'=>'aa496012772@gmail.com',
-        'status'=>'subscribed',
-    ]);
+    $response = $mailchimp->ping->get();
     ddd($response);
 
-});*/
-Route::post('/newsletter',NewsletterController::class);
+});
+//Route::post('newsletter',NewsletterController::class);
 
 //Route class :: route method(get(url,function(){}),post,patch,delete,put)-->each one responds to a type of http requests
 Route::get('/', function () {

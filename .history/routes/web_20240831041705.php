@@ -31,7 +31,7 @@ use App\Services\Newsletter;
 |
 */
 //subscription form(api)
-/*Route::get('ping',function(){
+Route::get('ping',function(){
     $mailchimp = new \MailchimpMarketing\ApiClient();
     $mailchimp->setConfig([
 	    'apiKey' => config('services.mailchimp.key'),
@@ -43,8 +43,8 @@ use App\Services\Newsletter;
     ]);
     ddd($response);
 
-});*/
-Route::post('/newsletter',NewsletterController::class);
+});
+//Route::post('newsletter',NewsletterController::class);
 
 //Route class :: route method(get(url,function(){}),post,patch,delete,put)-->each one responds to a type of http requests
 Route::get('/', function () {
